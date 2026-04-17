@@ -1,21 +1,21 @@
+import controller.GerenciadorAluguel;
+import model.*;
+import view.AluguelView;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        GerenciadorAluguel sistema = new GerenciadorAluguel();
+        GerenciadorAluguel controller = new GerenciadorAluguel();
+        AluguelView view = new AluguelView();
+
         Cliente c1 = new Cliente("Ana Silva", "9999-8888");
-
         Horario h10 = new Horario(LocalTime.of(10, 0), 100.0);
-        Horario h11 = new Horario(LocalTime.of(11, 0), 100.0);
 
-        sistema.registrarAluguel(c1, LocalDate.now(), Arrays.asList(h10, h11));
+        String msg = controller.registrarAluguel(c1, LocalDate.now(), Arrays.asList(h10));
+        view.exibirMensagem(msg);
 
-        Cliente c2 = new Cliente("João Souza", "8888-7777");
-        sistema.registrarAluguel(c2, LocalDate.now(), Arrays.asList(h10));
-
-        System.out.println("\n--- Relatório do Dia ---");
-        sistema.consultarPorData(LocalDate.now()).forEach(System.out::println);
+        view.imprimirRelatorio(controller.consultarPorData(LocalDate.now()));
     }
 }
